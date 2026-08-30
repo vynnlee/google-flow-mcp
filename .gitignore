@@ -10,7 +10,7 @@ config/flow.config.json
 # Outputs & Generated Media
 outputs/
 screenshots-debug/
-benchmark/*.json
+benchmark/
 *.log
 
 # OS & Editor

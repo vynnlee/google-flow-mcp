@@ -10,8 +10,7 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "node scripts/test-connection.js",
-    "test:e2e": "node scripts/test-mcp-compliance.js",
-    "benchmark": "node benchmark/benchmark_playwright.mjs && python3 benchmark/benchmark_browser_harness.py"
+    "test:e2e": "node scripts/test-mcp-compliance.js"
   },
   "keywords": [
     "mcp",

@@ -227,11 +227,6 @@ Run full MCP specification compliance audit:
 npm run test:e2e
 ```
 
-Run comparative latency and resource benchmark:
-```bash
-npm run benchmark
-```
-
 Debug using MCP Inspector:
 ```bash
 npx @modelcontextprotocol/inspector node src/index.js
