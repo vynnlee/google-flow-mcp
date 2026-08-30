@@ -1,14 +1,15 @@
 # Google Flow MCP Server
 
-A Model Context Protocol (MCP) server for Google Flow (`labs.google/fx/tools/flow`), providing programmatic access to Google's Nano Banana 2/Pro image generation and Veo 3 video generation models via direct Chrome DevTools Protocol (CDP) WebSocket communication.
+A session-backed, direct-CDP UI-to-MCP wrapper for Google Flow (`labs.google/fx/tools/flow`), implementing the Browser as an API paradigm to provide programmatic access to Nano Banana 2/Pro image generation and Veo 3 video generation models.
 
 ## Overview
 
-This server enables AI agents (Claude Desktop, Cursor, Antigravity, etc.) to control Google Flow using structured JSON-RPC over standard I/O. It implements direct CDP WebSocket communication without full browser automation overhead, providing sub-25ms connection latency, multi-reference image attachment, in-page binary streaming, and live credit telemetry.
+This server acts as a UI-to-API bridge, enabling AI agents (Claude Desktop, Cursor, Antigravity, etc.) to control Google Flow using structured JSON-RPC over standard I/O. By attaching directly to an existing Chrome debugging session over WebSocket, it bypasses the need for official API keys, handles bot detection transparently via real user session context, and achieves sub-25ms execution latency with in-page binary streaming and live credit telemetry.
 
 ## Features
 
-- Direct CDP Engine: Connects over raw WebSocket to an existing Chrome debugging port, bypassing framework synchronization layers.
+- Browser as an API: Treats the authenticated Google Flow web interface as a programmable, queryable tool for AI agents.
+- Session-Backed CDP Engine: Connects directly over raw WebSocket to a persistent Chrome debugging profile, preserving Google OAuth session state and avoiding bot-detection challenges.
 - Multi-Reference Injection: Attaches canonical character and background reference images directly into the prompt bar as input chips.
 - In-Page Binary Streaming: Retrieves generated high-resolution assets via authenticated in-page `fetch()` without page reloads.
 - Standardized MCP Interface: Exposes Tools, Resources (`flow://credits`, `flow://session`, `flow://projects`), and Prompt Templates.
