@@ -207,27 +207,38 @@ Manages the connection state to the dedicated Chrome browser instance.
 
 ## Architecture
 
-```
-+-------------------------------------------------------------+
-|                     MCP Client (Stdio)                      |
-|           (Claude Desktop / Cursor / Windsurf / Cline)      |
-+-------------------------------------------------------------+
-                              |
-                              v
-+-------------------------------------------------------------+
-|                      google-flow-mcp                        |
-|  - Tool Router (src/index.js)                               |
-|  - Direct CDP WebSocket Client (src/cdp/client.js)          |
-|  - Multi-Reference Attachment Engine (src/tools/generate)   |
-|  - Semantic i18n Selector Matcher (src/utils/i18n)         |
-+-------------------------------------------------------------+
-                              |
-                              v  (Raw CDP JSON-RPC / ~21ms)
-+-------------------------------------------------------------+
-|             Dedicated Chrome Instance (:9333)               |
-|  - FlowAutomationChrome Profile (Persistent Session)        |
-|  - Google Flow WebApp (labs.google/fx/tools/flow)           |
-+-------------------------------------------------------------+
+```mermaid
+flowchart TD
+    subgraph Clients["AI Clients and IDEs (Stdio JSON-RPC)"]
+        Claude["Claude Desktop"]
+        Cursor["Cursor IDE"]
+        Windsurf["Windsurf IDE"]
+        Cline["Cline / Roo Code"]
+        Zed["Zed / Other MCP Clients"]
+    end
+
+    subgraph MCPServer["google-flow-mcp (Node.js)"]
+        Router["Tool & Resource Router (src/index.js)"]
+        GenImg["Image Engine (Nano Banana 2/Pro)"]
+        GenVid["Video Engine (Veo 3.1)"]
+        CDPClient["Direct CDP WebSocket Client (src/cdp/client.js)"]
+        Helpers["Browser Harness Helpers (src/helpers/)"]
+        InPageFetch["In-Page Binary Fetcher (Direct Media Stream)"]
+    end
+
+    subgraph Browser["Persistent Chrome Automation Instance (:9333)"]
+        CDP["Chrome DevTools Protocol (:9333/devtools/page)"]
+        Profile["FlowAutomationChrome Profile (Persistent Google OAuth)"]
+        FlowApp["Google Flow WebApp (labs.google/fx/tools/flow)"]
+    end
+
+    Claude & Cursor & Windsurf & Cline & Zed -->|Stdio JSON-RPC| Router
+    Router --> GenImg & GenVid
+    GenImg & GenVid --> CDPClient & Helpers
+    CDPClient -->|Raw JSON-RPC / ~21ms| CDP
+    CDP --> Profile --> FlowApp
+    FlowApp -.->|Authenticated Media Stream| InPageFetch
+    InPageFetch -.->|High-Res JPG/MP4| Router
 ```
 
 ## Performance Benchmark
