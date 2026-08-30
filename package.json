@@ -11,7 +11,8 @@
     "start": "node src/index.js",
     "launch": "node scripts/launch.js",
     "test": "node scripts/test-connection.js",
-    "test:e2e": "node scripts/test-mcp-compliance.js"
+    "test:e2e": "node scripts/test-mcp-compliance.js",
+    "build:mcpb": "npx @anthropic-ai/mcpb pack . google-flow-mcp-1.2.0.mcpb"
   },
   "keywords": [
     "mcp",

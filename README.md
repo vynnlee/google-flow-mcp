@@ -25,7 +25,9 @@ This server acts as a UI-to-API bridge, enabling AI agents (Claude Desktop, Curs
 - Google Chrome, Brave, Chromium, or Microsoft Edge
 - An active Google account with access to Google Flow (`https://labs.google/fx/tools/flow`)
 
-## Automatic Setup via AI Agent (Recommended)
+## Installation Options
+
+### Option 1: Automatic Setup via AI Agent (Recommended)
 
 Copy and paste the following prompt directly into your AI coding assistant (Cursor, Claude Code, Windsurf, Antigravity, Cline, etc.):
 
@@ -37,9 +39,13 @@ Please install and configure the google-flow-mcp server for my current environme
 4. Verify the setup by running `npm run test:e2e` and confirm that all tests pass.
 ```
 
-## Manual Quick Start (3 Steps)
+### Option 2: MCPB Bundle (.mcpb) Drag & Drop
 
-### 1. Clone and Install Dependencies
+Download the pre-packaged `google-flow-mcp-1.2.0.mcpb` bundle from the [Releases](https://github.com/vynnlee/google-flow-mcp/releases) page and drag it directly into your MCP-compatible client interface.
+
+### Option 3: Manual Installation (3 Steps)
+
+#### 1. Clone and Install Dependencies
 
 ```bash
 git clone https://github.com/vynnlee/google-flow-mcp.git
@@ -47,7 +53,7 @@ cd google-flow-mcp
 npm install
 ```
 
-### 2. Launch Dedicated Browser Profile
+#### 2. Launch Dedicated Browser Profile
 
 Run the cross-platform launcher to start your persistent automation browser:
 
@@ -59,7 +65,7 @@ Log in to your Google account once in the opened window. Your authentication is 
 
 *(Manual alternative: launch Chrome with `--remote-debugging-port=9333` and `--user-data-dir="<path>"`)*
 
-### 3. Add to Your AI Client
+#### 3. Add to Your AI Client
 
 Add the following standard MCP configuration to your AI client's settings:
 

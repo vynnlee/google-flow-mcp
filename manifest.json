@@ -1,0 +1,24 @@
+{
+  "manifest_version": "0.2",
+  "name": "google-flow-mcp",
+  "display_name": "Google Flow MCP",
+  "version": "1.2.0",
+  "description": "Session-backed, direct-CDP UI-to-MCP wrapper for Google Flow (Nano Banana 2/Pro & Veo 3) implementing the Browser as an API paradigm.",
+  "author": {
+    "name": "Vynn Lee",
+    "email": "vynnlee.vsl@gmail.com"
+  },
+  "homepage": "https://github.com/vynnlee/google-flow-mcp",
+  "license": "MIT",
+  "server": {
+    "type": "node",
+    "entry_point": "src/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/src/index.js"
+      ],
+      "env": {}
+    }
+  }
+}

@@ -1,0 +1,11 @@
+outputs/
+screenshots-debug/
+benchmark/
+*.log
+*.mcpb
+.git/
+.github/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
