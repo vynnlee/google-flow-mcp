@@ -208,10 +208,27 @@ Manages the connection state to the dedicated Chrome browser instance.
 ## Architecture
 
 ```mermaid
-flowchart LR
-    Client["AI Client / IDE\n(Claude, Cursor, Windsurf)"] -->|Stdio JSON-RPC| MCP["google-flow-mcp\n(Direct CDP Engine)"]
-    MCP -->|WebSocket / ~21ms| Chrome["Dedicated Chrome (:9333)\n(Persistent Session)"]
-    Chrome -->|Web Interface| Flow["Google Flow\n(Nano Banana 2 / Veo 3)"]
+flowchart TD
+    Client["AI Clients and IDEs\n(Claude Desktop, Cursor, Windsurf, Cline)"]
+    
+    subgraph MCPServer["google-flow-mcp (Node.js Server)"]
+        Router["Tool & Resource Router\n(Tools, Resources, Prompts)"]
+        Engine["Direct CDP WebSocket Engine\n(~21ms Low-Latency Control)"]
+        MultiRef["Multi-Reference Chip Injector\n(Characters & Backgrounds)"]
+        StreamFetch["In-Page Binary Stream Fetcher\n(Direct Asset Retrieval)"]
+    end
+    
+    subgraph Browser["Dedicated Chrome Instance (:9333)"]
+        Session["Persistent Google OAuth Session\n(FlowAutomationChrome Profile)"]
+        Flow["Google Flow WebApp\n(Nano Banana 2/Pro & Veo 3)"]
+    end
+
+    Client -->|Stdio JSON-RPC| Router
+    Router --> MultiRef --> Engine
+    Engine -->|Raw WebSocket CDP| Session
+    Session --> Flow
+    Flow -.->|Authenticated Media Stream| StreamFetch
+    StreamFetch -.->|JPG / MP4 Assets + Credits JSON| Client
 ```
 
 ## Performance Benchmark
