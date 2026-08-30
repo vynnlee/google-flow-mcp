@@ -4,7 +4,7 @@ A session-backed, direct-CDP UI-to-MCP wrapper for Google Flow (`labs.google/fx/
 
 ## Overview
 
-This server acts as a UI-to-API bridge, enabling AI agents (Claude Desktop, Cursor, Antigravity, etc.) to control Google Flow using structured JSON-RPC over standard I/O. By attaching directly to an existing Chrome debugging session over WebSocket, it bypasses the need for official API keys, handles bot detection transparently via real user session context, and achieves sub-25ms execution latency with in-page binary streaming and live credit telemetry.
+This server acts as a UI-to-API bridge, enabling AI agents (Claude Desktop, Cursor, Windsurf, Cline, Antigravity, etc.) to control Google Flow using structured JSON-RPC over standard I/O. By attaching directly to an existing Chrome debugging session over WebSocket, it bypasses the need for official API keys, handles bot detection transparently via real user session context, and achieves sub-25ms execution latency with in-page binary streaming and live credit telemetry.
 
 ## Features
 
@@ -22,7 +22,9 @@ This server acts as a UI-to-API bridge, enabling AI agents (Claude Desktop, Curs
 - Google Chrome, Brave, Chromium, or Microsoft Edge
 - An active Google account with access to Google Flow (`https://labs.google/fx/tools/flow`)
 
-## Installation
+## Quick Start (3 Steps)
+
+### 1. Clone and Install Dependencies
 
 ```bash
 git clone https://github.com/vynnlee/google-flow-mcp.git
@@ -30,17 +32,108 @@ cd google-flow-mcp
 npm install
 ```
 
-## Setup
+### 2. Launch Dedicated Browser Profile
 
-### 1. Configure Settings
-
-Create `config/flow.config.json` by copying the example template:
+Run the cross-platform launcher to start your persistent automation browser:
 
 ```bash
-cp config/flow.config.example.json config/flow.config.json
+npm run launch
 ```
 
-Edit `config/flow.config.json`:
+Log in to your Google account once in the opened window. Your authentication is preserved across restarts in a dedicated user data directory.
+
+*(Manual alternative: launch Chrome with `--remote-debugging-port=9333` and `--user-data-dir="<path>"`)*
+
+### 3. Add to Your AI Client
+
+Add the server configuration to your preferred AI coding assistant or desktop client.
+
+## Client Configuration Examples
+
+### Claude Desktop (`claude_desktop_config.json`)
+
+Path:
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "google-flow": {
+      "command": "node",
+      "args": [
+        "/absolute/path/to/google-flow-mcp/src/index.js"
+      ]
+    }
+  }
+}
+```
+
+### Cursor (`.cursor/mcp.json` or Settings > Features > MCP)
+
+```json
+{
+  "mcpServers": {
+    "google-flow": {
+      "command": "node",
+      "args": [
+        "/absolute/path/to/google-flow-mcp/src/index.js"
+      ]
+    }
+  }
+}
+```
+
+### Windsurf (`~/.codeium/windsurf/mcp_config.json`)
+
+```json
+{
+  "mcpServers": {
+    "google-flow": {
+      "command": "node",
+      "args": [
+        "/absolute/path/to/google-flow-mcp/src/index.js"
+      ]
+    }
+  }
+}
+```
+
+### Cline / Roo Code (`cline_mcp_settings.json`)
+
+```json
+{
+  "mcpServers": {
+    "google-flow": {
+      "command": "node",
+      "args": [
+        "/absolute/path/to/google-flow-mcp/src/index.js"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+### Zed (`~/.config/zed/settings.json`)
+
+```json
+{
+  "context_servers": {
+    "google-flow": {
+      "command": {
+        "path": "node",
+        "args": ["/absolute/path/to/google-flow-mcp/src/index.js"]
+      }
+    }
+  }
+}
+```
+
+## Optional Configuration
+
+Create `config/flow.config.json` to override default parameters:
 
 ```json
 {
@@ -49,73 +142,6 @@ Edit `config/flow.config.json`:
   "defaultImageModel": "Nano Banana 2",
   "defaultRatio": "16:9",
   "autoConfirm": false
-}
-```
-
-### 2. Launch Dedicated Chrome Profile
-
-Launch Chrome with remote debugging enabled. This profile is persistent and stores your authenticated Google session.
-
-#### macOS
-```bash
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-  --remote-debugging-port=9333 \
-  --user-data-dir="$HOME/Library/Application Support/Google/FlowAutomationChrome" \
-  --no-first-run \
-  https://labs.google/fx/tools/flow
-```
-
-#### Windows (PowerShell)
-```powershell
-& "C:\Program Files\Google\Chrome\Application\chrome.exe" `
-  --remote-debugging-port=9333 `
-  --user-data-dir="$env:LOCALAPPDATA\Google\FlowAutomationChrome" `
-  --no-first-run `
-  https://labs.google/fx/tools/flow
-```
-
-#### Linux
-```bash
-google-chrome \
-  --remote-debugging-port=9333 \
-  --user-data-dir="$HOME/.config/google-flow-mcp/chrome-profile" \
-  --no-first-run \
-  https://labs.google/fx/tools/flow
-```
-
-Log in to your Google account once in the opened window. Subsequent runs reuse the existing session.
-
-## Configuration
-
-Add the server configuration to your MCP client settings file.
-
-### Claude Desktop (`claude_desktop_config.json`)
-
-```json
-{
-  "mcpServers": {
-    "google-flow": {
-      "command": "node",
-      "args": [
-        "/absolute/path/to/google-flow-mcp/src/index.js"
-      ]
-    }
-  }
-}
-```
-
-### Generic MCP Client (`mcp_config.json`)
-
-```json
-{
-  "mcpServers": {
-    "google-flow": {
-      "command": "node",
-      "args": [
-        "/absolute/path/to/google-flow-mcp/src/index.js"
-      ]
-    }
-  }
 }
 ```
 
@@ -128,7 +154,7 @@ Generates images using Nano Banana 2, Nano Banana Pro, or Imagen 4 with optional
 
 Parameters:
 - `prompt` (string, required): Detailed prompt describing the scene, subject, camera angle, and style.
-- `reference_images` (string[], optional): File paths to reference images to inject as prompt chips.
+- `reference_images` (string[], optional): Absolute file paths to reference images to inject as prompt chips.
 - `model` (string, optional): `"Nano Banana 2"` (default), `"Nano Banana Pro"`, or `"Imagen 4"`.
 - `ratio` (string, optional): `"16:9"` (default), `"9:16"`, `"1:1"`, `"4:3"`, or `"3:4"`.
 - `auto_confirm` (boolean, optional): Set to `true` to execute generation and consume credits. If `false`, prepares the prompt in the UI without generating. Default: `false`.
@@ -184,6 +210,7 @@ Manages the connection state to the dedicated Chrome browser instance.
 ```
 +-------------------------------------------------------------+
 |                     MCP Client (Stdio)                      |
+|           (Claude Desktop / Cursor / Windsurf / Cline)      |
 +-------------------------------------------------------------+
                               |
                               v
@@ -214,6 +241,21 @@ Measured on macOS against Google Chrome remote debugging port 9333 (5-run mean):
 | Screenshot Capture | 383.92 ms | 359.95 ms | 6.2% faster |
 | Single Transaction Runtime | 761.31 ms | 384.17 ms | 1.98x faster |
 | Process Memory (RSS) | 166.81 MB | 52.31 MB | 68.6% reduction |
+
+## Troubleshooting & FAQ
+
+### Browser Connection Failed
+- Ensure the browser is running with `--remote-debugging-port=9333`. You can verify by opening `http://localhost:9333/json` in your browser.
+- If port 9333 is occupied by another process, change `cdpPort` in `config/flow.config.json`.
+
+### Re-Authentication Required
+- If Google Flow displays a login prompt, open the dedicated Chrome window, log in with your Google account, and refresh the page. The session will remain active.
+
+### Using Custom Browser Paths
+- Set the `CHROME_PATH` environment variable to point to your specific browser binary (e.g., Brave or Edge):
+  ```bash
+  export CHROME_PATH="/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+  ```
 
 ## Development & Testing
 
