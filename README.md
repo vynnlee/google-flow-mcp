@@ -2,6 +2,9 @@
 
 A session-backed, direct-CDP UI-to-MCP wrapper for Google Flow (`labs.google/fx/tools/flow`), implementing the Browser as an API paradigm to provide programmatic access to Nano Banana 2/Pro image generation and Veo 3 video generation models.
 
+> [!IMPORTANT]
+> Disclaimer: This project is an unofficial, independent open-source tool and is not affiliated with, endorsed by, or associated with Google or Google Labs. Use this software at your own risk. The authors and contributors assume no liability or responsibility for any account suspension, service restriction, credit consumption, or terms-of-service enforcement resulting from the use of this software. Users are solely responsible for complying with Google's Terms of Service and applicable policies.
+
 ## Overview
 
 This server acts as a UI-to-API bridge, enabling AI agents (Claude Desktop, Cursor, Windsurf, Cline, Antigravity, etc.) to control Google Flow using structured JSON-RPC over standard I/O. By attaching directly to an existing Chrome debugging session over WebSocket, it bypasses the need for official API keys, handles bot detection transparently via real user session context, and achieves sub-25ms execution latency with in-page binary streaming and live credit telemetry.
