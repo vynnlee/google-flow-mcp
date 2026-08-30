@@ -1,0 +1,41 @@
+{
+  "name": "google-flow-mcp",
+  "version": "1.2.0",
+  "description": "High-performance Model Context Protocol (MCP) server for Google Flow (Nano Banana 2/Pro & Veo 3) featuring Direct CDP WebSocket acceleration, Browser Harness self-healing agent helpers, and multi-reference image injection.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "google-flow-mcp": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node scripts/test-connection.js",
+    "test:e2e": "node scripts/test-mcp-compliance.js",
+    "benchmark": "node benchmark/benchmark_playwright.mjs && python3 benchmark/benchmark_browser_harness.py"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "google-flow",
+    "nano-banana",
+    "veo",
+    "cdp",
+    "browser-harness",
+    "ai-agents",
+    "image-generation"
+  ],
+  "author": "Vynn Lee <vynnlee.vsl@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vynnlee/google-flow-mcp.git"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.9.0",
+    "playwright": "^1.61.1",
+    "zod": "^3.24.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

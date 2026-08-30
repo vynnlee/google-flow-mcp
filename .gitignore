@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Local Configuration & Credentials
+config/flow.config.json
+.env
+.env.local
+
+# Outputs & Generated Media
+outputs/
+screenshots-debug/
+benchmark/*.json
+*.log
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.bak
