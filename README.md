@@ -25,7 +25,19 @@ This server acts as a UI-to-API bridge, enabling AI agents (Claude Desktop, Curs
 - Google Chrome, Brave, Chromium, or Microsoft Edge
 - An active Google account with access to Google Flow (`https://labs.google/fx/tools/flow`)
 
-## Quick Start (3 Steps)
+## Automatic Setup via AI Agent (Recommended)
+
+Copy and paste the following prompt directly into your AI coding assistant (Cursor, Claude Code, Windsurf, Antigravity, Cline, etc.):
+
+```text
+Please install and configure the google-flow-mcp server for my current environment:
+1. Clone https://github.com/vynnlee/google-flow-mcp to an appropriate local directory and run `npm install`.
+2. Locate the MCP configuration file for my current client (e.g., Claude Desktop, Cursor `.cursor/mcp.json`, Windsurf, Cline) and add the "google-flow" server entry pointing to the cloned `src/index.js`.
+3. Run `npm run launch` to open the dedicated Chrome profile so I can log in to Google Flow.
+4. Verify the setup by running `npm run test:e2e` and confirm that all tests pass.
+```
+
+## Manual Quick Start (3 Steps)
 
 ### 1. Clone and Install Dependencies
 
