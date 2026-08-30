@@ -46,15 +46,7 @@ Log in to your Google account once in the opened window. Your authentication is 
 
 ### 3. Add to Your AI Client
 
-Add the server configuration to your preferred AI coding assistant or desktop client.
-
-## Client Configuration Examples
-
-### Claude Desktop (`claude_desktop_config.json`)
-
-Path:
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+Add the following standard MCP configuration to your AI client's settings:
 
 ```json
 {
@@ -69,67 +61,15 @@ Path:
 }
 ```
 
-### Cursor (`.cursor/mcp.json` or Settings > Features > MCP)
+#### Settings File Locations
 
-```json
-{
-  "mcpServers": {
-    "google-flow": {
-      "command": "node",
-      "args": [
-        "/absolute/path/to/google-flow-mcp/src/index.js"
-      ]
-    }
-  }
-}
-```
-
-### Windsurf (`~/.codeium/windsurf/mcp_config.json`)
-
-```json
-{
-  "mcpServers": {
-    "google-flow": {
-      "command": "node",
-      "args": [
-        "/absolute/path/to/google-flow-mcp/src/index.js"
-      ]
-    }
-  }
-}
-```
-
-### Cline / Roo Code (`cline_mcp_settings.json`)
-
-```json
-{
-  "mcpServers": {
-    "google-flow": {
-      "command": "node",
-      "args": [
-        "/absolute/path/to/google-flow-mcp/src/index.js"
-      ],
-      "disabled": false,
-      "autoApprove": []
-    }
-  }
-}
-```
-
-### Zed (`~/.config/zed/settings.json`)
-
-```json
-{
-  "context_servers": {
-    "google-flow": {
-      "command": {
-        "path": "node",
-        "args": ["/absolute/path/to/google-flow-mcp/src/index.js"]
-      }
-    }
-  }
-}
-```
+| Client | Configuration File Path |
+| :--- | :--- |
+| **Claude Desktop** | `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)<br>`%APPDATA%\Claude\claude_desktop_config.json` (Windows) |
+| **Cursor** | `.cursor/mcp.json` or Settings > Features > MCP |
+| **Windsurf** | `~/.codeium/windsurf/mcp_config.json` |
+| **Cline / Roo Code** | `cline_mcp_settings.json` |
+| **Zed** | `~/.config/zed/settings.json` (under `context_servers`) |
 
 ## Optional Configuration
 
