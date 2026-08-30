@@ -271,7 +271,10 @@ export async function handleGenerateVideo(args) {
 
     return jobQueue.getJob(job.id).result;
   } catch (err) {
-    await takeScreenshot(getPage(), 'generate-video-error');
+    try {
+      const p = getPage();
+      if (p) await takeScreenshot(p, 'generate-video-error');
+    } catch (_) {}
     jobQueue.failJob(job.id, err);
     throw err;
   }

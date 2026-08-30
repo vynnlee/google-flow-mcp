@@ -27,8 +27,7 @@ import { handleFlowStatus } from './tools/flow-status.js';
 import { handleGenerateImage } from './tools/generate-image.js';
 import { handleGenerateVideo } from './tools/generate-video.js';
 import { handleDownloadLatest } from './tools/download-latest.js';
-import { listExistingProjects, createNewProject } from './navigation/project-navigator.js';
-import { connectDirectCDP, evaluateJS, captureScreenshotCDP } from './cdp/client.js';
+import { jobQueue } from './queue/job-queue.js';
 import { get } from './utils/config.js';
 import fs from 'fs';
 import path from 'path';
@@ -327,6 +326,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'flow_disconnect': {
         await closeBrowserConnection();
+        jobQueue.clear();
         return { content: [{ type: 'text', text: JSON.stringify({ status: 'disconnected' }, null, 2) }] };
       }
 

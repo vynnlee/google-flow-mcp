@@ -25,11 +25,17 @@ class JobQueue {
    */
   createJob(type, params = {}) {
     if (this.currentJob && this.currentJob.status === 'running') {
-      throw new FlowError(
-        ErrorCodes.JOB_IN_PROGRESS,
-        `A job is already in progress: ${this.currentJob.id} (${this.currentJob.type}). Wait for it to complete.`,
-        { currentJobId: this.currentJob.id }
-      );
+      const elapsed = this.currentJob.startedAt ? Date.now() - new Date(this.currentJob.startedAt).getTime() : 0;
+      if (elapsed > 120000) {
+        logger.warn('Auto-failing stale running job', { jobId: this.currentJob.id, elapsed });
+        this.failJob(this.currentJob.id, new Error('Job timed out / replaced by new request'));
+      } else {
+        throw new FlowError(
+          ErrorCodes.JOB_IN_PROGRESS,
+          `A job is already in progress: ${this.currentJob.id} (${this.currentJob.type}). Wait for it to complete.`,
+          { currentJobId: this.currentJob.id }
+        );
+      }
     }
 
     const id = this.generateId();
@@ -123,6 +129,10 @@ class JobQueue {
       } : null,
       totalJobs: this.jobs.size,
     };
+  clear() {
+    this.currentJob = null;
+    this.jobs.clear();
+    logger.info('Job queue cleared');
   }
 
   on(event, callback) {

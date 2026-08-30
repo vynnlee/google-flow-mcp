@@ -450,7 +450,10 @@ export async function handleGenerateImage(args) {
 
     return resultPayload;
   } catch (err) {
-    await takeScreenshot(getPage(), 'generate-image-error');
+    try {
+      const p = getPage();
+      if (p) await takeScreenshot(p, 'generate-image-error');
+    } catch (_) {}
     jobQueue.failJob(job.id, err);
     throw err;
   }
