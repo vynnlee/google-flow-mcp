@@ -129,6 +129,8 @@ class JobQueue {
       } : null,
       totalJobs: this.jobs.size,
     };
+  }
+
   clear() {
     this.currentJob = null;
     this.jobs.clear();
